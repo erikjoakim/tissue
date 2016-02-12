@@ -45,7 +45,7 @@ namespace Tissue
         {
             DrawArea = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
             bmTransF = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
-            DrawGrid(DrawArea);
+            //DrawGrid(DrawArea);
             DrawCells(DrawArea);
             DrawGrid(bmTransF);
             DrawCells(bmTransF, thisTissue.myTransF.transF);

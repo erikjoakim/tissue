@@ -45,7 +45,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(234, 72);
+            this.pictureBox1.Location = new System.Drawing.Point(349, 125);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(500, 500);
             this.pictureBox1.TabIndex = 0;
@@ -58,9 +58,9 @@
             // 
             // btnStartSim
             // 
-            this.btnStartSim.Location = new System.Drawing.Point(165, 72);
+            this.btnStartSim.Location = new System.Drawing.Point(79, 72);
             this.btnStartSim.Name = "btnStartSim";
-            this.btnStartSim.Size = new System.Drawing.Size(63, 22);
+            this.btnStartSim.Size = new System.Drawing.Size(62, 22);
             this.btnStartSim.TabIndex = 1;
             this.btnStartSim.Text = "Start Sim";
             this.btnStartSim.UseVisualStyleBackColor = true;
@@ -87,7 +87,7 @@
             // 
             // btnQuickSave
             // 
-            this.btnQuickSave.Location = new System.Drawing.Point(165, 125);
+            this.btnQuickSave.Location = new System.Drawing.Point(79, 125);
             this.btnQuickSave.Name = "btnQuickSave";
             this.btnQuickSave.Size = new System.Drawing.Size(62, 22);
             this.btnQuickSave.TabIndex = 4;
@@ -97,7 +97,7 @@
             // 
             // btnRestore
             // 
-            this.btnRestore.Location = new System.Drawing.Point(166, 145);
+            this.btnRestore.Location = new System.Drawing.Point(79, 153);
             this.btnRestore.Name = "btnRestore";
             this.btnRestore.Size = new System.Drawing.Size(62, 22);
             this.btnRestore.TabIndex = 4;
@@ -117,9 +117,9 @@
             // 
             // btnStepSim
             // 
-            this.btnStepSim.Location = new System.Drawing.Point(166, 97);
+            this.btnStepSim.Location = new System.Drawing.Point(79, 97);
             this.btnStepSim.Name = "btnStepSim";
-            this.btnStepSim.Size = new System.Drawing.Size(63, 22);
+            this.btnStepSim.Size = new System.Drawing.Size(62, 22);
             this.btnStepSim.TabIndex = 1;
             this.btnStepSim.Text = "Step Sim";
             this.btnStepSim.UseVisualStyleBackColor = true;

@@ -12,11 +12,13 @@ namespace Tissue
     {
         public static int tissueSize = 50;
         public TransferFunction myTransF = new TransferFunction();
+        public BoundaryCondition myBC = new BoundaryCondition(tissueSize);
+
         public int[,] cells;
 
         public TissueMain()
         {
-            cells = new int[tissueSize, tissueSize];
+            cells = new int[tissueSize+myTransF.size-1, tissueSize + myTransF.size - 1];
         }
         public static TissueMain toTissueObject(string serializedText)
         {
@@ -35,11 +37,15 @@ namespace Tissue
 
         public void updateTissue()
         {
+            //update BC
+            cells = myBC.upDateBCOnes(cells, myTransF.size);
+            //update cells
             cells = myTransF.getUpdatedCellsArray(this);
         }
 
         /// <summary>
         /// Returns an symmetric array around x, y with values of size 2*size +1
+        /// Only size == 1 is supported as is...
         /// </summary>
         /// <param name="size"></param>
         /// <param name="x"></param>
@@ -52,16 +58,9 @@ namespace Tissue
             {
                 for (int y = 0; y < 2 * size + 1; y++)
                 {
-                    if (x + xpos - 2*size +1 < 0 || y + ypos - 2*size + 1 < 0)
-                        returnArray[x, y] = 0;
-                    else
-                    {
-                        if (x + xpos > tissueSize-1 || y + ypos > tissueSize-1)
-                            returnArray[x, y] = 0;
-                        else
-                            returnArray[x, y] = cells[xpos + x - 2*size +1, ypos + y -2*size + 1];
-                    }
-                }
+                    returnArray[x, y] = cells[x + xpos - 2 * size + 1, y + ypos - 2 * size + 1];
+                    
+                }// End
             }
             return returnArray;
         }
@@ -86,49 +85,5 @@ namespace Tissue
             if (myTransF.transF[x, y] == 0) myTransF.transF[x, y] = 1; else myTransF.transF[x, y] = 0;
         }
     }
-    public class TransferFunction
-    {
-        //The Class TransferFunction will update the tissue to the next state
-        public int[,] newCells;
-        public int[,] transF = new int[3, 3]  { {0,1,0}, {1,0,1}, {0,1,0} };
-
-        /// <summary>
-        /// Will multiply element by element two equally sized square arrays and return the sum
-        /// Will return null if not equally sized or not square
-        /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        private int? MultiplyArrays(int[,] first, int[,] second)
-        {
-            if ( (first.GetLength(0) != second.GetLength(0)) || (first.GetLength(1) != second.GetLength(1)) || ( first.GetLength(0) != first.GetLength(1)) ) return null;
-            int result=0;
-            for (int x = 0; x < first.GetLength(0); x++)
-            {
-                for (int y = 0; y < first.GetLength(1); y++)
-                {
-                    result += first[x, y] * second[x, y];
-                }
-            }
-            return result;
-        }
-
-        public int[,] getUpdatedCellsArray(TissueMain theTissue)
-        {
-            newCells = new int[theTissue.getTissueSize(), theTissue.getTissueSize()];
-            for (int x = 0; x < theTissue.getTissueSize(); x++)
-            {
-                for (int y = 0; y < theTissue.getTissueSize(); y++)
-                {
-                    int? res = MultiplyArrays(theTissue.getSubArray(1, x, y), transF);
-                    if(res.HasValue)
-                    {
-                        if ((res.Value >= 3) && (res.Value <7)) newCells[x, y] = 1;
-                    }
-                }
-            }
-            return newCells;
-        }
-
-    }
+    
 }

@@ -1,0 +1,31 @@
+﻿Version Control
+==============
+Ver alfa 0.1
+Did a new implementation of Boundary Conditions. 
+The tissue cells size is now increased to include the Boundary conditions, and the edges of the cells array are updated with the assigned BC object on each tick.
+
+
+WorkItems
+==============
+Make sure the tissue can handle differet tissue sizes
+Change the drawing of the tissue to allow for bigger or smaller tissues.
+
+Make it possible to edit the thresholds for the Transfer Function
+
+Update to make the values of the tissue take negativ and fractional values (see 2 below)
+
+1.Implement Wrapping
+2.Implement using double values
+3.Implement functional Boundary Conditions
+4.Implement Analysis Functions
+	1. Calculate frequency or cycle period. 
+	With which period do patterns return for whole or parts of the tissue
+	2. Define different KPI for the tissue
+	Wave patterns in different directions?
+	Areas of standing waves?
+	Average values of whole or parts of the tissue?
+	etc
+5.Implement Image feed boundary condition
+	1. Includes to be able to feed a particular pattern as BC on a particular side.
+6. Think about how to find output from the tissue...
+	A feed of a circle should be somehow recognized..
