@@ -24,6 +24,7 @@ Update to make the values of the tissue take negativ and fractional values (see 
 	Wave patterns in different directions?
 	Areas of standing waves?
 	Average values of whole or parts of the tissue?
+	Number of active cells
 	etc
 5.Implement Image feed boundary condition
 	1. Includes to be able to feed a particular pattern as BC on a particular side.
