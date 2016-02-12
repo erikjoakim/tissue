@@ -1,6 +1,6 @@
 ﻿Version Control
 ==============
-Ver alfa 0.1
+Ver alfa 0.1 8f5293f8
 Did a new implementation of Boundary Conditions. 
 The tissue cells size is now increased to include the Boundary conditions, and the edges of the cells array are updated with the assigned BC object on each tick.
 
