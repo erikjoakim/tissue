@@ -70,7 +70,8 @@ namespace Tissue
 
         public int[,] getUpdatedCellsArray(TissueMain theTissue)
         {
-            newCells = new int[theTissue.cells.GetLength(0), theTissue.cells.GetLength(1)];
+            newCells = theTissue.cells;
+            //newCells = new int[theTissue.cells.GetLength(0), theTissue.cells.GetLength(1)];
             for (int x = size / 2; x < theTissue.getTissueSize() + size / 2; x++)
             {
                 for (int y = size / 2; y < theTissue.getTissueSize() + size / 2; y++)

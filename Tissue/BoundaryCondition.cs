@@ -57,11 +57,11 @@ namespace Tissue
                     //TOP
                     cells[x, y] = 1;
                     //BOTTOM
-                    cells[x, (y + cells.GetLength(0) - TFsize / 2 - 1)] = 1;
+                    cells[x, (y + cells.GetLength(0) - TFsize / 2 )] = 1;
                     //LEFT
                     cells[y, x] = 1;
                     //RIGHT
-                    cells[(y + cells.GetLength(0) - TFsize / 2 - 1),x] = 1;
+                    cells[(y + cells.GetLength(0) - TFsize / 2 ),x] = 1;
                 }
             }
             return cells;

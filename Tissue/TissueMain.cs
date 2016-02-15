@@ -34,6 +34,10 @@ namespace Tissue
         {
             return tissueSize;
         }
+        public int getTissueAndBoundarySize()
+        {
+            return tissueSize + myTransF.size - 1;
+        }
 
         public void updateTissue()
         {
@@ -68,7 +72,7 @@ namespace Tissue
         public int? getValueAt(int x, int y)
         {
             if (x < 0 || y < 0) return null;
-            if (x > tissueSize || y > tissueSize) return null;
+            if (x > tissueSize + myTransF.size - 1 || y > tissueSize + myTransF.size - 1) return null;
             return cells[x, y];
         }
 

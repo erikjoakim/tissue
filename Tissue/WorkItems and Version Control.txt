@@ -1,5 +1,15 @@
 ﻿Version Control
 ==============
+Next Version: 
+Implement editable Boundary Conditions. Possibly also Boundary Conditions which can vary with time.
+Implement wrapping.
+
+Ver Alfa 0.1 
+Corrected bugs related to BC. Now BC shows in grid and is correctly updated on Tick().
+
+Ver. Alfa 0.1 305fa087
+Implemented Thresholds in Tissue and Windows Interface
+
 Ver alfa 0.1 8f5293f8
 Did a new implementation of Boundary Conditions. 
 The tissue cells size is now increased to include the Boundary conditions, and the edges of the cells array are updated with the assigned BC object on each tick.
@@ -30,3 +40,8 @@ Update to make the values of the tissue take negativ and fractional values (see 
 	1. Includes to be able to feed a particular pattern as BC on a particular side.
 6. Think about how to find output from the tissue...
 	A feed of a circle should be somehow recognized..
+7. Implement Transfer function that takes into account earlier states, that is the value of a particular cell at the state previous to this one.
+	The transfer function needs to save a copy of the cell matrix. This will be like a first order derivate.
+8. Implement Threshold function as separate Object.
+9. Implement object to model functional values of cells for instance for the purpose of Boundary Conditions.
+10. Implement 3D Tissues

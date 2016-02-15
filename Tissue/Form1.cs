@@ -39,7 +39,7 @@ namespace Tissue
             g.Clear(Color.White);
             g = Graphics.FromImage(bmTransF);
             g.Clear(Color.White);
-
+            thisTissue.updateTissue();
             DrawFrame();
         }
 
@@ -48,15 +48,16 @@ namespace Tissue
             DrawArea = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
             bmTransF = new Bitmap(pbTransferF.Size.Width, pbTransferF.Size.Height);
             bmThresFun = new Bitmap(pbThresFun.Size.Width, pbThresFun.Size.Height);
-            //DrawGrid(DrawArea);
-            DrawCells(DrawArea);
-            DrawGrid(bmTransF);
+            DrawTissueGrid(DrawArea);
+            DrawTissueCells(DrawArea);
+            //DrawGrid(bmTransF);
             DrawCells(bmTransF, thisTissue.myTransF.transF, Color.Red);
             DrawThresholdBM(bmThresFun);
             pictureBox1.Image = DrawArea;
             pbTransferF.Image = bmTransF;
             pbThresFun.Image = bmThresFun;
         }
+
         private void DrawCells(Bitmap DrawArea, int[] thisCellArray, Color thisColor)
         {
             Graphics g = Graphics.FromImage(DrawArea);
@@ -93,6 +94,10 @@ namespace Tissue
             }
 
         }
+        /// <summary>
+        /// Draw Threshold Bitmap
+        /// </summary>
+        /// <param name="DrawArea"></param>
         private void DrawThresholdBM(Bitmap DrawArea)
         {
             Graphics g = Graphics.FromImage(DrawArea);
@@ -129,37 +134,64 @@ namespace Tissue
                 g.DrawLine(mypen, i, 0, i, DrawArea.Size.Height);
             }
         }
-        private void DrawCells(Bitmap DrawArea)
+
+
+        private void DrawTissueCells(Bitmap DrawArea)
         {
             Graphics g = Graphics.FromImage(DrawArea);
             SolidBrush myBrush = new SolidBrush(Color.Red);
-            for (int x = 0; x < thisTissue.getTissueSize(); x++)
+            int gridSize = thisTissue.getTissueAndBoundarySize();
+            int xGrid = DrawArea.Size.Width / gridSize;
+            int yGrid = DrawArea.Size.Height / gridSize;
+            for (int x = 0; x < gridSize; x++)
             {
-                for (int y = 0; y < thisTissue.getTissueSize(); y++)
+                for (int y = 0; y < gridSize; y++)
                 {
                     if(thisTissue.getValueAt(x,y) == 1)
                     {
-                        Rectangle dotRect = new Rectangle(x * GridSize, y * GridSize, GridSize, GridSize);
+                        Rectangle dotRect = new Rectangle(x * xGrid, y * yGrid, xGrid, yGrid);
                         g.FillEllipse(myBrush, dotRect);
                     }
                 }
-            }
-            
+            }        
         }
+        private void DrawTissueGrid(Bitmap DrawArea)
+        {
+            Graphics g;
+            g = Graphics.FromImage(DrawArea);
 
+            Pen mypen = new Pen(Brushes.Black);
+            int gridSize = thisTissue.getTissueAndBoundarySize();
+            int xGrid = DrawArea.Size.Width / gridSize;
+            int yGrid = DrawArea.Size.Height / gridSize;
+            int myW = DrawArea.Width;
+            int myH = DrawArea.Height;
+            for (int i = 0; i < gridSize * xGrid+1; i += xGrid)
+            {
+                g.DrawLine(mypen, i, 0, i, gridSize * xGrid+1);
+            }
+            for (int i = 0; i < gridSize * yGrid+1; i += yGrid)
+            {
+                g.DrawLine(mypen, 0, i, gridSize * yGrid+1, i);
+            }
+
+        }
         private void DrawGrid(Bitmap DrawArea)
         {
             Graphics g;
             g = Graphics.FromImage(DrawArea);
 
             Pen mypen = new Pen(Brushes.Black);
+            int gridSize = thisTissue.getTissueAndBoundarySize();
+            int xGrid = DrawArea.Size.Width / gridSize;
+            int yGrid = DrawArea.Size.Height / gridSize;
             int myW = DrawArea.Width;
             int myH = DrawArea.Height;
-            for (int i = 0; i < myW; i += GridSize)
+            for (int i = 0; i < gridSize*xGrid; i += xGrid)
             {
                 g.DrawLine(mypen, i, 0, i, myH);
             }
-            for (int i = 0; i < myH; i += GridSize)
+            for (int i = 0; i < gridSize* yGrid; i += yGrid)
             {
                 g.DrawLine(mypen, 0, i, myW, i);
             }
