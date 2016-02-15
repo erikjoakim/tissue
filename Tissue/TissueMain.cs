@@ -84,6 +84,12 @@ namespace Tissue
             if (x > myTransF.transF.GetLength(0) || y > myTransF.transF.GetLength(1)) return;
             if (myTransF.transF[x, y] == 0) myTransF.transF[x, y] = 1; else myTransF.transF[x, y] = 0;
         }
+        public void toggleThresholdCell(int x)
+        {
+            if (x < 0) return;
+            if (x > myTransF.thresholdFunc.GetLength(0)) return;
+            if (myTransF.thresholdFunc[x] == 0) myTransF.thresholdFunc[x] = 1; else myTransF.thresholdFunc[x] = 0;
+        }
     }
     
 }

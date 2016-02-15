@@ -13,7 +13,7 @@ namespace Tissue
         public int[,] newCells;
         public int size = 3;
         public int[,] transF = new int[3, 3] { { 0, 1, 0 }, { 1, 0, 1 }, { 0, 1, 0 } };
-
+        public int[] thresholdFunc = new int[10] { 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 };
         /// <summary>
         /// Will multiply element by element two equally sized square arrays and return the sum
         /// Will return null if not equally sized or not square
@@ -34,6 +34,39 @@ namespace Tissue
             }
             return result;
         }
+        /// <summary>
+        /// return the total number of cells used by the transfer function
+        /// </summary>
+        /// <returns></returns>
+        public int getNumberOfTransferValues()
+        {
+            return size * size+1;
+        }
+
+        /// <summary>
+        /// returns the maximum value the threshold can take which is the sum of the values of the transfer function
+        /// </summary>
+        /// <returns></returns>
+        public int getMaxThreshold()
+        {
+            int value=0;
+            for (int x = 0; x < size; x++)
+            {
+                for (int y = 0; y < size; y++)
+                {
+                    value += transF[x, y];
+                }
+            }
+            return value;
+        }
+        /// <summary>
+        /// returns the minimum value the threshold can take which is 0 in case of boolean values. Needs to be updated if the transfer function can take negative values
+        /// </summary>
+        /// <returns></returns>
+        public int getMinThreshold()
+        {
+            return 0;
+        }
 
         public int[,] getUpdatedCellsArray(TissueMain theTissue)
         {
@@ -45,7 +78,7 @@ namespace Tissue
                     int? res = MultiplyArrays(theTissue.getSubArray(1, x, y), transF);
                     if (res.HasValue)
                     {
-                        if ((res.Value >= 3) && (res.Value < 7)) newCells[x, y] = 1;
+                        newCells[x, y] = thresholdFunc[res.Value];
                     }
                 }
             }

@@ -38,9 +38,15 @@
             this.btnRestore = new System.Windows.Forms.Button();
             this.btnOpenFile = new System.Windows.Forms.Button();
             this.btnStepSim = new System.Windows.Forms.Button();
+            this.pbThresFun = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblTHMax = new System.Windows.Forms.Label();
+            this.lblTHMin = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTransferF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbThresFun)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -68,9 +74,9 @@
             // 
             // pbTransferF
             // 
-            this.pbTransferF.Location = new System.Drawing.Point(234, 36);
+            this.pbTransferF.Location = new System.Drawing.Point(9, 19);
             this.pbTransferF.Name = "pbTransferF";
-            this.pbTransferF.Size = new System.Drawing.Size(30, 30);
+            this.pbTransferF.Size = new System.Drawing.Size(31, 31);
             this.pbTransferF.TabIndex = 2;
             this.pbTransferF.TabStop = false;
             this.pbTransferF.Click += new System.EventHandler(this.pbTransferF_Click);
@@ -125,27 +131,67 @@
             this.btnStepSim.UseVisualStyleBackColor = true;
             this.btnStepSim.Click += new System.EventHandler(this.btnStepSim_Click);
             // 
+            // pbThresFun
+            // 
+            this.pbThresFun.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbThresFun.Location = new System.Drawing.Point(6, 75);
+            this.pbThresFun.Name = "pbThresFun";
+            this.pbThresFun.Size = new System.Drawing.Size(200, 10);
+            this.pbThresFun.TabIndex = 5;
+            this.pbThresFun.TabStop = false;
+            this.pbThresFun.Click += new System.EventHandler(this.pbThresFun_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lblTHMax);
+            this.groupBox1.Controls.Add(this.lblTHMin);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.pbTransferF);
+            this.groupBox1.Controls.Add(this.pbThresFun);
+            this.groupBox1.Location = new System.Drawing.Point(12, 213);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(232, 136);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Transfer Function";
+            // 
+            // lblTHMax
+            // 
+            this.lblTHMax.AutoSize = true;
+            this.lblTHMax.Location = new System.Drawing.Point(180, 108);
+            this.lblTHMax.Name = "lblTHMax";
+            this.lblTHMax.Size = new System.Drawing.Size(26, 13);
+            this.lblTHMax.TabIndex = 8;
+            this.lblTHMax.Text = "max";
+            // 
+            // lblTHMin
+            // 
+            this.lblTHMin.AutoSize = true;
+            this.lblTHMin.Location = new System.Drawing.Point(3, 108);
+            this.lblTHMin.Name = "lblTHMin";
+            this.lblTHMin.Size = new System.Drawing.Size(23, 13);
+            this.lblTHMin.TabIndex = 7;
+            this.lblTHMin.Text = "min";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(171, 1);
+            this.label1.Location = new System.Drawing.Point(6, 59);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(158, 25);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Branch: Integer";
+            this.label1.Size = new System.Drawing.Size(59, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Thresholds";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(945, 696);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnRestore);
             this.Controls.Add(this.btnQuickSave);
             this.Controls.Add(this.btnOpenFile);
             this.Controls.Add(this.btnSaveStart);
-            this.Controls.Add(this.pbTransferF);
             this.Controls.Add(this.btnStepSim);
             this.Controls.Add(this.btnStartSim);
             this.Controls.Add(this.pictureBox1);
@@ -154,8 +200,10 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTransferF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbThresFun)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -170,6 +218,10 @@
         private System.Windows.Forms.Button btnRestore;
         private System.Windows.Forms.Button btnOpenFile;
         private System.Windows.Forms.Button btnStepSim;
+        private System.Windows.Forms.PictureBox pbThresFun;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblTHMax;
+        private System.Windows.Forms.Label lblTHMin;
         private System.Windows.Forms.Label label1;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,18 +15,21 @@ namespace Tissue
     {
         Bitmap DrawArea;
         Bitmap bmTransF;
+        Bitmap bmThresFun;
         TissueMain thisTissue = new TissueMain();
         string buTissue;
-        TransferFunction thisTransF = new TransferFunction();
-
+        //TransferFunction thisTransF = new TransferFunction();
+        
         int GridSize = 10;
         public Form1()
         {
             InitializeComponent();
             DrawArea = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
-            bmTransF = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
+            bmTransF = new Bitmap(pbTransferF.Size.Width, pbTransferF.Size.Height);
+            bmThresFun = new Bitmap(pbThresFun.Size.Width, pbThresFun.Size.Height);
             pictureBox1.Image = DrawArea;
             pbTransferF.Image = bmTransF;
+            pbThresFun.Image = bmThresFun;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -36,39 +40,94 @@ namespace Tissue
             g = Graphics.FromImage(bmTransF);
             g.Clear(Color.White);
 
-            DrawGrid(DrawArea);
-            DrawGrid(bmTransF);
-            DrawCells(bmTransF, thisTissue.myTransF.transF);
+            DrawFrame();
         }
 
         private void DrawFrame()
         {
             DrawArea = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
-            bmTransF = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
+            bmTransF = new Bitmap(pbTransferF.Size.Width, pbTransferF.Size.Height);
+            bmThresFun = new Bitmap(pbThresFun.Size.Width, pbThresFun.Size.Height);
             //DrawGrid(DrawArea);
             DrawCells(DrawArea);
             DrawGrid(bmTransF);
-            DrawCells(bmTransF, thisTissue.myTransF.transF);
+            DrawCells(bmTransF, thisTissue.myTransF.transF, Color.Red);
+            DrawThresholdBM(bmThresFun);
             pictureBox1.Image = DrawArea;
             pbTransferF.Image = bmTransF;
+            pbThresFun.Image = bmThresFun;
         }
-
-        private void DrawCells(Bitmap DrawArea, int[,] thisCellArray)
+        private void DrawCells(Bitmap DrawArea, int[] thisCellArray, Color thisColor)
         {
             Graphics g = Graphics.FromImage(DrawArea);
-            SolidBrush myBrush = new SolidBrush(Color.Red);
+            SolidBrush myBrush = new SolidBrush(thisColor);
+            int gridSizeX = DrawArea.Size.Width / thisCellArray.GetLength(0);
+            int gridSizeY = DrawArea.Size.Height;
+
+            for (int x = 0; x < thisCellArray.GetLength(0); x++)
+            {
+                if (thisCellArray[x] == 1)
+                {
+                    Rectangle dotRect = new Rectangle(x * gridSizeX, 0, gridSizeX, gridSizeY);
+                    g.FillEllipse(myBrush, dotRect);
+                }
+            }
+        }
+        private void DrawCells(Bitmap DrawArea, int[,] thisCellArray, Color thisColor)
+        {
+            Graphics g = Graphics.FromImage(DrawArea);
+            SolidBrush myBrush = new SolidBrush(thisColor);
+            int gridSizeX = DrawArea.Size.Width / thisCellArray.GetLength(0);
+            int gridSizeY = DrawArea.Size.Height / thisCellArray.GetLength(1);
+            
             for (int x = 0; x < thisCellArray.GetLength(0); x++)
             {
                 for (int y = 0; y < thisCellArray.GetLength(1); y++)
                 {
                     if (thisCellArray[x, y] == 1)
                     {
-                        Rectangle dotRect = new Rectangle(x * GridSize, y * GridSize, GridSize, GridSize);
+                        Rectangle dotRect = new Rectangle(x * gridSizeX, y * gridSizeY, gridSizeX, gridSizeY);
                         g.FillEllipse(myBrush, dotRect);
                     }
                 }
             }
 
+        }
+        private void DrawThresholdBM(Bitmap DrawArea)
+        {
+            Graphics g = Graphics.FromImage(DrawArea);
+            SolidBrush myBrush = new SolidBrush(Color.Red);
+            Pen mypen = new Pen(Brushes.Black);
+
+            int noTransValues = thisTissue.myTransF.getNumberOfTransferValues();
+            int gridSizeX = DrawArea.Size.Width / noTransValues;
+
+            //Threshold Values
+            for (int x = 0; x < noTransValues; x++)
+            {
+                if (thisTissue.myTransF.thresholdFunc[x] == 1)
+                {
+                    Rectangle dotRect = new Rectangle(x * gridSizeX, 0, gridSizeX, DrawArea.Size.Height);
+                    g.FillRectangle(myBrush, dotRect);
+                }
+            }
+            //Mark max values
+            HatchBrush hBrush = new HatchBrush(HatchStyle.BackwardDiagonal, Color.Red);
+
+            int thMaxVal = thisTissue.myTransF.getMaxThreshold();
+            for (int x = 0; x < noTransValues; x++)
+            {
+                if (x>thMaxVal)
+                {
+                    Rectangle dotRect = new Rectangle(x * gridSizeX, 0, gridSizeX, DrawArea.Size.Height);
+                    g.FillRectangle(hBrush, dotRect);
+                }
+            }
+                //Grid
+                for (int i = 0; i < DrawArea.Size.Width; i += gridSizeX)
+            {
+                g.DrawLine(mypen, i, 0, i, DrawArea.Size.Height);
+            }
         }
         private void DrawCells(Bitmap DrawArea)
         {
@@ -202,6 +261,20 @@ namespace Tissue
             MouseEventArgs me = e as MouseEventArgs;
             Point? cellCoord = fromPixelToCellCoord(me.X, me.Y);
             if (cellCoord.HasValue) thisTissue.toggleTransFCell(cellCoord.Value.X, cellCoord.Value.Y);
+            DrawFrame();
+        }
+
+        private void pbThresFun_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs me = e as MouseEventArgs;
+
+            //NEED TO FIX
+            if (me.X < 0 || me.Y < 0) return;
+            if (me.X > bmThresFun.Width || me.Y > bmThresFun.Height) return;
+            int noTransValues = thisTissue.myTransF.getNumberOfTransferValues();
+            int gridSizeX = bmThresFun.Size.Width / noTransValues;
+            int dotX = me.X / gridSizeX;
+            thisTissue.toggleThresholdCell(dotX);
             DrawFrame();
         }
     }
