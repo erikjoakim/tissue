@@ -70,7 +70,7 @@ namespace Tissue
 
         public int[,] getUpdatedCellsArray(TissueMain theTissue)
         {
-            newCells = theTissue.cells;
+            newCells = (int[,]) theTissue.cells.Clone();
             //newCells = new int[theTissue.cells.GetLength(0), theTissue.cells.GetLength(1)];
             for (int x = size / 2; x < theTissue.getTissueSize() + size / 2; x++)
             {

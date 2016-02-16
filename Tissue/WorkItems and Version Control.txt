@@ -4,7 +4,14 @@ Next Version:
 Implement editable Boundary Conditions. Possibly also Boundary Conditions which can vary with time.
 Implement wrapping.
 
-Ver Alfa 0.1 
+Ver Alfa 0.1
+Implemented simulation speed setting
+Implemented editable BC
+Fixed a few bugs in Tissue update and BC
+Implemented BCWrapRight and Combobox to select BC Types
+Implemented pink BC
+
+Ver Alfa 0.1 015647b7
 Corrected bugs related to BC. Now BC shows in grid and is correctly updated on Tick().
 
 Ver. Alfa 0.1 305fa087
@@ -14,10 +21,13 @@ Ver alfa 0.1 8f5293f8
 Did a new implementation of Boundary Conditions. 
 The tissue cells size is now increased to include the Boundary conditions, and the edges of the cells array are updated with the assigned BC object on each tick.
 
+BUGS??
+=============
+Should possible update BC AFTER cell update to prepare for next tick. May show up nicer in the graphics
 
 WorkItems
 ==============
-Make sure the tissue can handle differet tissue sizes
+Make sure the tissue can handle different tissue sizes
 Change the drawing of the tissue to allow for bigger or smaller tissues.
 
 Make it possible to edit the thresholds for the Transfer Function

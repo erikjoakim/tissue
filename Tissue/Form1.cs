@@ -21,6 +21,9 @@ namespace Tissue
         //TransferFunction thisTransF = new TransferFunction();
         
         int GridSize = 10;
+
+        public static IReadOnlyList<T> GetValues<T>() { return (T[])Enum.GetValues(typeof(T)); }
+
         public Form1()
         {
             InitializeComponent();
@@ -39,7 +42,14 @@ namespace Tissue
             g.Clear(Color.White);
             g = Graphics.FromImage(bmTransF);
             g.Clear(Color.White);
-            thisTissue.updateTissue();
+
+            //Load BCType Combobox
+            foreach (BoundaryCondition.BCType thisBCType in GetValues<BoundaryCondition.BCType>())
+            {
+                cbBCType.Items.Add(thisBCType.ToString());
+            }
+            cbBCType.SelectedIndex = 0;
+            thisTissue.updateTissue((BoundaryCondition.BCType) Enum.Parse(typeof(BoundaryCondition.BCType), cbBCType.SelectedItem.ToString()));
             DrawFrame();
         }
 
@@ -140,6 +150,7 @@ namespace Tissue
         {
             Graphics g = Graphics.FromImage(DrawArea);
             SolidBrush myBrush = new SolidBrush(Color.Red);
+            SolidBrush myBrushBC = new SolidBrush(Color.LightPink);
             int gridSize = thisTissue.getTissueAndBoundarySize();
             int xGrid = DrawArea.Size.Width / gridSize;
             int yGrid = DrawArea.Size.Height / gridSize;
@@ -150,7 +161,11 @@ namespace Tissue
                     if(thisTissue.getValueAt(x,y) == 1)
                     {
                         Rectangle dotRect = new Rectangle(x * xGrid, y * yGrid, xGrid, yGrid);
-                        g.FillEllipse(myBrush, dotRect);
+                        if (x < thisTissue.myTransF.size/2 || x > gridSize - thisTissue.myTransF.size/2-1 || y < thisTissue.myTransF.size / 2 || y > gridSize - thisTissue.myTransF.size / 2 - 1)
+                        {
+                            g.FillEllipse(myBrushBC, dotRect);
+                        } else
+                            g.FillEllipse(myBrush, dotRect);
                     }
                 }
             }        
@@ -202,8 +217,11 @@ namespace Tissue
         {
             if (x < 0 || y < 0) return null;
             if (x > DrawArea.Width || y > DrawArea.Height) return null;
-            int dotX = x / GridSize;
-            int dotY = y / GridSize;
+            int gridSize = thisTissue.getTissueAndBoundarySize();
+            int xGrid = DrawArea.Size.Width / gridSize;
+            int yGrid = DrawArea.Size.Height / gridSize;
+            int dotX = x / xGrid;
+            int dotY = y / yGrid;
             return new Point(dotX, dotY);
         }
 
@@ -231,7 +249,7 @@ namespace Tissue
         private void timer1_Tick(object sender, EventArgs e)
         {
             //Update Tissue
-            thisTissue.updateTissue();
+            thisTissue.updateTissue((BoundaryCondition.BCType)Enum.Parse(typeof(BoundaryCondition.BCType), cbBCType.SelectedItem.ToString()));
             //DrawFrame
             DrawFrame();
         }
@@ -283,7 +301,7 @@ namespace Tissue
         private void btnStepSim_Click(object sender, EventArgs e)
         {
             //Update Tissue
-            thisTissue.updateTissue();
+            thisTissue.updateTissue((BoundaryCondition.BCType)Enum.Parse(typeof(BoundaryCondition.BCType), cbBCType.SelectedItem.ToString()));
             //DrawFrame
             DrawFrame();
         }
@@ -308,6 +326,11 @@ namespace Tissue
             int dotX = me.X / gridSizeX;
             thisTissue.toggleThresholdCell(dotX);
             DrawFrame();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            timer1.Interval = (int) numericUpDown1.Value;
         }
     }
 }

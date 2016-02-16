@@ -19,6 +19,7 @@ namespace Tissue
         public TissueMain()
         {
             cells = new int[tissueSize+myTransF.size-1, tissueSize + myTransF.size - 1];
+            cells = myBC.upDateBCOnes(cells, myTransF.size);
         }
         public static TissueMain toTissueObject(string serializedText)
         {
@@ -39,10 +40,10 @@ namespace Tissue
             return tissueSize + myTransF.size - 1;
         }
 
-        public void updateTissue()
+        public void updateTissue(BoundaryCondition.BCType thisBCType)
         {
             //update BC
-            cells = myBC.upDateBCOnes(cells, myTransF.size);
+            cells = myBC.updateBC(cells, myTransF.size, thisBCType);
             //update cells
             cells = myTransF.getUpdatedCellsArray(this);
         }
@@ -72,20 +73,20 @@ namespace Tissue
         public int? getValueAt(int x, int y)
         {
             if (x < 0 || y < 0) return null;
-            if (x > tissueSize + myTransF.size - 1 || y > tissueSize + myTransF.size - 1) return null;
+            if (x > tissueSize + myTransF.size /2 || y > tissueSize + myTransF.size /2) return null;
             return cells[x, y];
         }
 
         public void toggleCell(int x, int y)
         {
             if (x < 0 || y < 0) return;
-            if (x > tissueSize || y > tissueSize) return;
+            if (x > tissueSize + myTransF.size /2 || y > tissueSize + myTransF.size /2) return;
             if (cells[x, y] == 0) cells[x, y] = 1; else cells[x, y] = 0;
         }
         public void toggleTransFCell(int x, int y)
         {
             if (x < 0 || y < 0) return;
-            if (x > myTransF.transF.GetLength(0) || y > myTransF.transF.GetLength(1)) return;
+            if (x > myTransF.transF.GetLength(0)-1 || y > myTransF.transF.GetLength(1)-1) return;
             if (myTransF.transF[x, y] == 0) myTransF.transF[x, y] = 1; else myTransF.transF[x, y] = 0;
         }
         public void toggleThresholdCell(int x)
